@@ -1,5 +1,5 @@
-#ifndef SHELL_H
-#define SHELL_H
+#ifndef SHELL_H_
+#define SHELL_H_
 
 #include <errno.h>
 #include <fcntl.h>
@@ -75,8 +75,8 @@ list_t;
 
 typedef struct passinfo
 
+flag;
 {
-  flag;
   char *fname;
   list_t *env;
   list_t *history;
