@@ -1,5 +1,5 @@
-#ifndef SHELL_H
-#define SHELL_H
+#ifndef SHELL_H_
+#define SHELL_H_
 
 #include <errno.h>
 #include <fcntl.h>
@@ -76,7 +76,12 @@ list_t;
 typedef struct passinfo
 
 {
-  flag;
+ char *arg;
+  char **argv;
+  char *path;
+  int argc;
+  unsigned int line_count;
+  int linecount_flag;
   char *fname;
   list_t *env;
   list_t *history;
@@ -84,13 +89,6 @@ typedef struct passinfo
   char **environ;
   int env_changed;
   int status;
-
-char *arg;
-  char **argv;
-  char *path;
-  int argc;
-  unsigned int line_count;
-  int linecount_
 
   char **cmd_buf; /* pointer to cmd ; chain buffer, for memory mangement */
   int cmd_buf_type; /* CMD_type ||, &&, ; */
