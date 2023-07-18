@@ -74,35 +74,34 @@ list_t;
  */
 
 typedef struct passinfo
-
-flag;
 {
-<<<<<<< HEAD
- char *arg;
-  char **argv;
-  char *path;
-  int argc;
-  unsigned int line_count;
-  int linecount_flag;
-=======
->>>>>>> b6c83fa0f22ca094df2ee26f6ed5e79292fda317
-  char *fname;
-  list_t *env;
-  list_t *history;
-  list_t *alias;
-  char **environ;
-  int env_changed;
-  int status;
+	char *arg;
+	char **argv;
+	char *path;
+	int argc;
+	unsigned int line_count;
+	int err_num;
+	int linecount_flag;
+	char *fname;
+	list_t *env;
+	list_t *history;
+	list_t *alias;
+	char **environ;
+	int env_changed;
+	int status;
 
-  char **cmd_buf; /* pointer to cmd ; chain buffer, for memory mangement */
-  int cmd_buf_type; /* CMD_type ||, &&, ; */
-} 
+	char **cmd_buf; /* pointer to cmd ; chain buffer, for memory mangement */
+	int cmd_buf_type; /* CMD_type ||, &&, ; */
+	int readfd;
+	int histcount;
+}
 
 info_t;
 
 #define INFO_INIT \
 {NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, 0, 0, NULL, \
-    0, 0, 0}
+		0, 0, 0}
+
 
 /*
  * struct builtin - contains a builtin string 
