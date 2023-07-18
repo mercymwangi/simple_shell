@@ -75,13 +75,17 @@ list_t;
 
 typedef struct passinfo
 
+flag;
 {
+<<<<<<< HEAD
  char *arg;
   char **argv;
   char *path;
   int argc;
   unsigned int line_count;
   int linecount_flag;
+=======
+>>>>>>> b6c83fa0f22ca094df2ee26f6ed5e79292fda317
   char *fname;
   list_t *env;
   list_t *history;
