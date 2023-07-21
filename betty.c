@@ -2,11 +2,11 @@
 #include "shell.h"
 
 /**
- * main - entry point
+ * my_main - entry point
  *
  * Return: 0 Always (success)
  */
-int main(void)
+int my_main(void)
 {
 	int a = 10;
 	int b = 15;
