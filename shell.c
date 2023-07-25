@@ -4,13 +4,15 @@
  * main - entry point
  * Return: 0
  */
+
 int main(void)
 {
-	char *prompt = "#cisfun$";
-	char *input = NULL, *input_copy = NULL;
+	char* input = NULL;
+	char* prompt = "#cisfun$";
+	char* input = NULL, *input_copy = NULL;
 	size_t n = 0;
 	ssize_t bytes_read;
-	char *tok;
+	char* tok;
 	const char *delim = " \n";
 	char **argv;
 	int j;
