@@ -207,6 +207,6 @@ int _getline(info_t *, char , size_t *);
 void sigintHandler(int);
 
 void execmd(char **argv);
-char *get_location(char *cmd);
+char *get_path(char *cmd);
 int stat(const char *pathname, struct stat *statbuf);
 #endif
