@@ -13,7 +13,7 @@ void execmd(char **argv)
 	if (argv)
 	{
 		cmd = argv[0];
-		real_cmd = get_location(cmd);
+		real_cmd = get_path(cmd);
 
 
 		if (execve(real_cmd, argv, NULL) == -1)

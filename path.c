@@ -1,11 +1,11 @@
 #include "shell.h"
 
 /**
- * get_location - function that gets the current environment
+ * get_path - function that gets the current environment
  * @cmd: the user command
  * Return: 0
  */
-char *get_location(char *cmd)
+char *get_path(char *cmd)
 {
 	char *path, *path_cp, *path_tok, *full_path;
 	int cmd_length, dir_length;
