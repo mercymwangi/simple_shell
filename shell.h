@@ -216,6 +216,12 @@ char **get_environ(info_t *);
 int _setenv(info_t *, char *, char *);
 int _unsetenv(info_t *, char *);
 
+/* toem_string.c */
+int _strlen(char *);
+int _strcmp(char *, char *);
+char *starts_with(const char *, const char *);
+char *_strcat(char *, char *);
+
 
 #endif
 

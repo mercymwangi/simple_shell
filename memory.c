@@ -1,13 +1,13 @@
 #include "shell.h"
 
 /**
- * freep - frees all pointers
+ * bfree - frees all pointers
  * @ptr: address of the pointer to be freed
  *
  * Return: 1 if freed, otherwise 0 always.
  */
 
-int freep(void **ptr)
+int bfree(void **ptr)
 {
 	if (ptr != NULL && *ptr != NULL)
 	{
