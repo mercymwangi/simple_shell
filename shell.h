@@ -5,6 +5,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <string.h>
+#include <sys/stat.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <math.h>
@@ -75,10 +76,6 @@ list_t;
 
 typedef struct passinfo
 {
-	char *arg;
-	char **argv;
-	char *path;
-	int argc;
 	unsigned int line_count;
 	int err_num;
 	int linecount_flag;
@@ -89,6 +86,10 @@ typedef struct passinfo
 	char **environ;
 	int env_changed;
 	int status;
+	char *arg;
+	char **argv;
+	char *path;
+	int argc;
 
 	char **cmd_buf; /* pointer to cmd ; chain buffer, for memory mangement */
 	int cmd_buf_type; /* CMD_type ||, &&, ; */
@@ -209,4 +210,12 @@ void sigintHandler(int);
 void execmd(char **argv);
 char *get_path(char *cmd);
 int stat(const char *pathname, struct stat *statbuf);
+
+/* toem_getenv.c */
+char **get_environ(info_t *);
+int _setenv(info_t *, char *, char *);
+int _unsetenv(info_t *, char *);
+
+
 #endif
+
