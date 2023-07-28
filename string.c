@@ -1,79 +1,139 @@
 #include "shell.h"
 
-/**
- * _strlen - returns the length of a string
- * @s: the string whose length to check
- *
- * Return: integer length 
- */
-
-int _strlen(char *s)
-{
-	int i = 0;
-
-	if (!s)
-		return (0);
-
-	while (*s++)
-		i++;
-	return (i);
-}
 
 /**
- * _strcmp - performs comparison of two strangs.
- * @s1: the first strang
- * @s2: the second strang
+ * _strtok_r - function that tokenizes a string
+ * @str: string to be parsed
+ * @del: delimiter to be used to parse the string
+ * @std_ptr: ptr to be used for the next token
  *
- * Return: negative if s1 < s2, positive if s1 > s2, zero if s1 == s2
+ *Return: The next token
  */
-
-int _strcmp(char *s1, char *s2)
+char *_strtok_r(char *str, char *del, char **std_ptr)
 {
-	while (*s1 && *s2)
+	char *complete;
+
+	if (str == NULL)
+		str = *std_ptr;
+
+	if (*str == '\0')
 	{
-		if (*s1 != *s2)
-			return (*s1 - *s2);
-		s1++;
-		s2++;
+		*std_ptr = str;
+		return (NULL);
 	}
-	if (*s1 == *s2)
-		return (0);
+
+	str += _strspn(str, del);
+	if (*str == '\0')
+	{
+		*std_ptr = str;
+		return (NULL);
+	}
+
+	complete = str + _strcspn(str, del);
+	if (*complete == '\0')
+	{
+		*std_ptr = complete;
+		return (str);
+	}
+
+	*complete = '\0';
+	*std_ptr = complete + 1;
+	return (str);
+}
+
+/**
+ * _atoi - function that changes a str to an int
+ * @s: the string to change
+ *
+ * Return: the converted int
+ */
+int _atoi(char *str)
+{
+	unsigned int j = 0;
+
+	do {
+		if (*str == '-')
+			return (-1);
+		else if ((*str < '0' || *str > '9') && *str != '\0')
+			return (-1);
+		else if (*str >= '0'  && *str <= '9')
+			j = (j * 10) + (*j - '0');
+		else if (j > 0)
+			break;
+	} while (*str++);
+	return (j);
+}
+
+/**
+ * _realloc - function that reallocates a memory block
+ * @ptr: pointer to the memory
+ * @initial_sz: size of ptr
+ * @current_sz: size of the new memory to be allocated
+ *
+ * Return: ptr to the address of the new memory block
+ */
+void *_realloc(void *ptr, unsigned int initial_sz, unsigned int current_sz)
+{
+	void *tmp_block;
+	unsigned int j;
+
+	if (ptr == NULL)
+	{
+		tmp_block = malloc(current_sz);
+		return (tmp_block);
+	}
+	else if (current_sz == initial_sz)
+		return (ptr);
+	else if (current_sz == 0 && ptr != NULL)
+	{
+		free(ptr);
+		return (NULL);
+	}
 	else
-		return (*s1 < *s2 ? -1 : 1);
-}
-
-/**
- * starts_with - checks if needle starts with haystack
- * @haystack: string to search
- * @needle: the substring to find
- *
- * Return: NULL
- */
-
-char *starts_with(const char *haystack, const char *needle)
-{
-	while (*needle)
-		if (*needle++ != *haystack++)
+	{
+		tmp_block = malloc(current_sz);
+		if (tmp_block != NULL)
+		{
+			for (j = 0; j < min(initial_sz, current_sz); j++)
+				*((char *)tmp_block + j) = *((char *)ptr + j);
+			free(ptr);
+			return (tmp_block);
+		}
+		else
 			return (NULL);
-	return ((char *)haystack);
+
+	}
 }
 
 /**
- * _strcat - concatenates two strings
- * @dest:destination buffer
- * @src: source buffer
+ * ctrl-c_cmd - function that handles CTRL-C
+ * @signum: signal number
  *
- * Return: pointer to destination buffer
+ * Return: void
  */
-
-char *_strcat(char *dest, char *src)
+void ctrl-c_cmd(int sigum)
 {
-	char *ret = dest;
+	if (signum == SIGINT)
+		print("\n($) ", STDIN_FILENO);
+}
 
-	while (*dest)
-		dest++;
-	while (*src)
-		*dest++ = *src++;
-	*dest = *src;
-	return (ret);
+/**
+ * delete_comment - funtion that ignores everything after a '#' char
+ * @input: user  input 
+ *
+ * Return: void
+ */
+void delete_comment(char *input)
+{
+	int j = 0;
+
+	if (input[j] == '#')
+		input[j] = '\0';
+	while (input[j] != '\0')
+	{
+		if (input[j] == '#' && input[j - 1] == ' ')
+			break;
+		j++;
+	}
+	input[j] = '\0';
 }

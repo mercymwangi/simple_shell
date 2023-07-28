@@ -210,11 +210,25 @@ void sigintHandler(int);
 void execmd(char **argv);
 char *get_path(char *cmd);
 int stat(const char *pathname, struct stat *statbuf);
-
-/* toem_getenv.c */
-char **get_environ(info_t *);
-int _setenv(info_t *, char *, char *);
-int _unsetenv(info_t *, char *);
+void init(char **current_cmd, int cmd_type);
+void exit(char **tokenized_command);
+void current_env(char **tokenized_command __attribute__((unused)));
+char **tokenizer(char *str_input, char *del);
+void std_output(char *str, int stream);
+void delete_newline(char *str);
+void _strcpy(char *str, char *dest);
+int _strlen(char *str);
+int parse_cmd(char *cmd);
+void exec_cmd(char **tokenized_command, int type_cmd);
+char *evaluate_path(char *cmd);
+void (*get_function(char *cmd))(char **);
+char *_getenv(char *name);
+void non_interactive(void);
+char *_strtok_r(char *str, char *del, char **std_ptr);
+int _atoi(char *str);
+void *_realloc(void *ptr, unsigned int initial_sz, unsigned int current_sz);
+void ctrl-c_cmd(int sigum);
+void delete_comment(char *input);
 
 /* toem_string.c */
 int _strlen(char *);
