@@ -1,15 +1,16 @@
 #include "shell.h"
 
 
-/** parse_cmd - function that determines the type of cmd
+/**
+ * parse_cmd - function that determines the type of cmd
  * @cmd: the command to be parsed
  *
  * Return: const representation the type of the command
  * Description -
- * 		 EXTERNAL_CMD (1) for cmds such as /bin/ls
- *		 INTERNAL_CMD (2) for cmds such as exit, env
- *		 PATH_CMD (3)for cmds in the PATH such as ls
- *		 INVALID_CMD (-1) for invalid cmds
+ * EXTERNAL_CMD (1) for cmds such as /bin/ls
+ * INTERNAL_CMD (2) for cmds such as exit, env
+ * PATH_CMD (3)for cmds in the PATH such as ls
+ * INVALID_CMD (-1) for invalid cmds
  */
 
 int parse_cmd(char *cmd)
@@ -40,19 +41,19 @@ int parse_cmd(char *cmd)
 }
 
 /**
- * exec_cmd - function that executes a cmd based on it's type
- * @tokenized_command: tokenized cmd (ls -l == {ls, -l, NULL})
+ * exec_cmd - function that executes a cmd based on type
+ * @tokenized_cmd: tokenized cmd
  * @type_cmd: type of the command
  *
  * Return: void
  */
-void exec_cmd(char **tokenized_command, int type_cmd)
+void exec_cmd(char **tokenized_cmd, int type_cmd)
 {
 	void (*function)(char **cmd);
 
 	if (type_cmd == EXTERNAL_CMD)
 	{
-		if (execve(tokenized_command[0], tokenized_command, NULL) == -1)
+		if (execve(tokenized_cmd[0], tokenized_cmd, NULL) == -1)
 		{
 			perror(_getenv("PWD"));
 			exit(2);
@@ -60,7 +61,7 @@ void exec_cmd(char **tokenized_command, int type_cmd)
 	}
 	if (type_cmd == PATH_CMD)
 	{
-		if (execve(evaluate_path(tokenized_command[0]), tokenized_command, NULL) == -1)
+		if (execve(evaluate_path(tokenized_cmd[0]), tokenized_cmd, NULL) == -1)
 		{
 			perror(_getenv("PWD"));
 			exit(2);
@@ -68,15 +69,15 @@ void exec_cmd(char **tokenized_command, int type_cmd)
 	}
 	if (type_cmd == INTERNAL_CMD)
 	{
-		function = get_func(tokenized_command[0]);
-		function(tokenized_command);
+		function = get_function(tokenized_cmd[0]);
+		function(tokenized_cmd);
 	}
 	if (type_cmd == INVALID_CMD)
 	{
-		print(name_of_shell, STDERR_FILENO);
-		print(": 1: ", STDERR_FILENO);
-		print(tokenized_command[0], STDERR_FILENO);
-		print(": cmd not found\n", STDERR_FILENO);
+		printf(name_of_shell, STDERR_FILENO);
+		printf(": 1: ", STDERR_FILENO);
+		printf(tokenized_cmd[0], STDERR_FILENO);
+		printf(": cmd not found\n", STDERR_FILENO);
 		status = 127;
 	}
 }
@@ -127,14 +128,14 @@ char *evaluate_path(char *cmd)
 void (*get_function(char *cmd))(char **)
 {
 	int j;
-	function_ map[] = {
-		{"env", env}, {"exit", quit}
+	function_map[] = {
+		{"env", env}, {"exit", exit}
 	};
 
 	for (j = 0; j < 2; j++)
 	{
 		if (_strcmp(cmd, map[j].cmd_name) == 0)
-			return (map[j].func);
+			return (map[j].function);
 	}
 	return (NULL);
 }

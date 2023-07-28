@@ -106,12 +106,12 @@ void *_realloc(void *ptr, unsigned int initial_sz, unsigned int current_sz)
 }
 
 /**
- * ctrl-c_cmd - function that handles CTRL-C
+ * ctrl_c_cmd - function that handles CTRL-C
  * @signum: signal number
  *
  * Return: void
  */
-void ctrl-c_cmd(int sigum)
+void ctrl_c_cmd(int signum)
 {
 	if (signum == SIGINT)
 		print("\n($) ", STDIN_FILENO);
@@ -119,7 +119,7 @@ void ctrl-c_cmd(int sigum)
 
 /**
  * delete_comment - funtion that ignores everything after a '#' char
- * @input: user  input 
+ * @input: user  input
  *
  * Return: void
  */
