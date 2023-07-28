@@ -1,77 +1,62 @@
 #include "shell.h"
 
 /**
- **_strncpy - copies a string
- *@dest: destination string
- *@src: source string
- *@n: amount of characters to be copied
- *Return: the concatenated string
+ * current_env - function that prints the current environment
+ * @tokenized_command: command to be tokenized
+ *
+ * Return: void
  */
 
-char *_strncpy(char *dest, char *src, int n)
+void current_env(char **tokenized_command __attribute__((unused)))
 {
-	int i, j;
-	char *s = dest;
+	int j;
 
-	i = 0;
-	while (src[i] != '\0' && i < n - 1)
+	for (j = 0; environ[j] != NULL; j++)
 	{
-		dest[i] = src[i];
-		i++;
+		print(environ[j], STDOUT_FILENO);
+		print("\n", STDOUT_FILENO);
 	}
-	if (i < n)
+}
+
+/**
+ * exit - function that exits the shell
+ * @tokenized_command: command to be tokenized
+ *
+ * Return: void
+ */
+
+void exit(char **tokenized_command)
+{
+	int num_tok = 0, arg;
+
+	for (; tokenized_command[num_tok] != NULL; num_tok++)
+		;
+	if (num_tok == 1)
 	{
-		j = i;
-		while (j < n)
+		free(tokenized_command);
+		free(line);
+		free(commands);
+		exit(status);
+	}
+	else if (num_tok == 2)
+	{
+		arg = _atoi(tokenized_command[1]);
+		if (arg == -1)
 		{
-			dest[j] = '\0';
-			j++;
+			print(name_of_shell, STDERR_FILENO);
+			print(": 1: exit: Illegal number: ", STDERR_FILENO);
+			print(tokenized_command[1], STDERR_FILENO);
+			print("\n", STDERR_FILENO);
+			status = 2;
+		}
+		else
+		{
+			free(line);
+			free(tokenized_command);
+			free(commands);
+			exit(arg);
 		}
 	}
-	return (s);
+	else
+		print("$: exit takes only one argument\n", STDERR_FILENO);
 }
-
-/**
- **_strncat - concatenates two strings
- *@dest: first string
- *@src: second string
- *@n: amount of bytes to be maximally used
- *Return: the concatenated string
- */
-
-char *_strncat(char *dest, char *src, int n)
-{
-	int i, j;
-	char *s = dest;
-
-	i = 0;
-	j = 0;
-	while (dest[i] != '\0')
-		i++;
-	while (src[j] != '\0' && j < n)
-	{
-		dest[i] = src[j];
-		i++;
-		j++;
-	}
-	if (j < n)
-		dest[i] = '\0';
-	return (s);
-}
-
-/**
- **_strchr - locates a character in a string
- *@s: the string to be parsed
- *@c: the character to look for
- *Return: (s) a pointer to the memory area s
- */
-char *_strchr(char *s, char c)
-{
-	do {
-		if (*s == c)
-			return (s);
-	} while (*s++ != '\0');
-
-	return (NULL);
-}
-
