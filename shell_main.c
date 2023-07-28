@@ -11,18 +11,18 @@
 
 int main(int argc, char **argv[])
 {
-	char **current_cmd = NULL, **cmds, *input, *name_of_shell = NULL;
+	char **current_cmd = NULL, char **cmds, char *input, char *name_of_shell = NULL;
 	int j, cmd_type = 0, status = 0;
 	size_t n = 0;
 
-	argc(void);
+	(void)argc;
 
 	signal(SIGINT, ctrl_c_cmd);
 	name_of_shell = argv[0];
 	while (1)
 	{
 		non_interactive();
-		print("#cisfun$ ", STDOUT_FILENO);
+		printf("#cisfun$ ", STDOUT_FILENO);
 		if (getline(&input, &n, stdin) == -1)
 		{
 			free(input);

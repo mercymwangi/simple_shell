@@ -61,7 +61,7 @@ void delete_newline(char *str)
 	{
 		if (str[j] == '\n')
 			break;
-		i++;
+		j++;
 	}
 	str[j] = '\0';
 }
@@ -78,7 +78,7 @@ void _strcpy(char *str, char *dest)
 {
 	int j = 0;
 
-	for (; str[j] != '\0'; i++)
+	for (; str[j] != '\0'; j++)
 		dest[j] = str[j];
 	dest[j] = '\0';
 }

@@ -10,7 +10,7 @@
 void current_env(char **tokenized_cmd)
 {
 	int j;
-	tokenized_cmd(void);
+	(void)tokenized_cmd;
 
 	for (j = 0; environ[j] != NULL; j++)
 	{
@@ -20,13 +20,13 @@ void current_env(char **tokenized_cmd)
 }
 
 /**
- * exit - function that exits the shell
+ * quit_shell - function that exits the shell
  * @tokenized_cmd: command to be tokenized
  *
  * Return: void
  */
 
-void exit(char **tokenized_cmd)
+void quit_shell(char **tokenized_cmd)
 {
 	int num_tok = 0, arg;
 
@@ -44,7 +44,7 @@ void exit(char **tokenized_cmd)
 		arg = _atoi(tokenized_cmd[1]);
 		if (arg == -1)
 		{
-			printf(name_of_shell, STDERR_FILENO);
+			printf("%c", name_of_shell, STDERR_FILENO);
 			printf(": 1: exit: number not allowed: ", STDERR_FILENO);
 			printf(tokenized_cmd[1], STDERR_FILENO);
 			printf("\n", STDERR_FILENO);
