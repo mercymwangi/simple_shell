@@ -1,62 +1,63 @@
 #include "shell.h"
 
 /**
- * current_env - function that prints the current environment
- * @tokenized_command: command to be tokenized
+ * current_env - function that prints current environment
+ * @tokenized_cmd: command to be tokenized
  *
  * Return: void
  */
 
-void current_env(char **tokenized_command __attribute__((unused)))
+void current_env(char **tokenized_cmd)
 {
 	int j;
+	tokenized_cmd(void);
 
 	for (j = 0; environ[j] != NULL; j++)
 	{
-		print(environ[j], STDOUT_FILENO);
-		print("\n", STDOUT_FILENO);
+		printf(environ[j], STDOUT_FILENO);
+		printf("\n", STDOUT_FILENO);
 	}
 }
 
 /**
  * exit - function that exits the shell
- * @tokenized_command: command to be tokenized
+ * @tokenized_cmd: command to be tokenized
  *
  * Return: void
  */
 
-void exit(char **tokenized_command)
+void exit(char **tokenized_cmd)
 {
 	int num_tok = 0, arg;
 
-	for (; tokenized_command[num_tok] != NULL; num_tok++)
+	for (; tokenized_cmd[num_tok] != NULL; num_tok++)
 		;
 	if (num_tok == 1)
 	{
-		free(tokenized_command);
-		free(line);
-		free(commands);
+		free(tokenized_cmd);
+		free(input);
+		free(cmds);
 		exit(status);
 	}
 	else if (num_tok == 2)
 	{
-		arg = _atoi(tokenized_command[1]);
+		arg = _atoi(tokenized_cmd[1]);
 		if (arg == -1)
 		{
-			print(name_of_shell, STDERR_FILENO);
-			print(": 1: exit: Illegal number: ", STDERR_FILENO);
-			print(tokenized_command[1], STDERR_FILENO);
-			print("\n", STDERR_FILENO);
+			printf(name_of_shell, STDERR_FILENO);
+			printf(": 1: exit: number not allowed: ", STDERR_FILENO);
+			printf(tokenized_cmd[1], STDERR_FILENO);
+			printf("\n", STDERR_FILENO);
 			status = 2;
 		}
 		else
 		{
-			free(line);
-			free(tokenized_command);
-			free(commands);
+			free(input);
+			free(tokenized_cmd);
+			free(cmds);
 			exit(arg);
 		}
 	}
 	else
-		print("$: exit takes only one argument\n", STDERR_FILENO);
+		printf("$: one argument\n", STDERR_FILENO);
 }

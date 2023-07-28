@@ -12,112 +12,37 @@
 #include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <dirent.h>
+#include <signal.h>
 
 /* for command chaining */
-#define CMD_NORM  0
-#define CMD_OR    1
-#define CMD_AND    2
-#define CMD_CHAIN  3
+#define EXTERNAL_CMD 1
+#define INTERNAL_CMD 2
+#define PATH_CMD 3
+#define INVALID_CMD -1
 
-/* for convert_number() */
-#define CONVERT_LOWERCASE  1
-#define CONVERT_UNSIGNED  2
+#define min(x, y) (((x) < (y)) ? (x) : (y))
 
-/* 1 if using system getline() */
-#define USE_GETLINE 0
-#define USE_STRTOK 0
-
-#define HIST_FILE  ".simple_shell_history"
-#define HIST_MAX  4096
-
-extern char environ;
-
-
-/*
- * @num: the number field
- * @str: a string
- * @next: points to the next node
- * struct liststr - singly linked list
+/**
+ * struct map - a struct that maps a command name to a function 
+ *
+ * @cmd_name: name of the command
+ * @function: the function that executes the command
  */
-
-
-typedef struct liststr
+typedef struct map
 {
-  int num;
-  char *str;
-  struct liststr *next;
+	char *cmd_name;
+	void (*function)(char **cmd);
+} function_map;
 
-} 
-
-list_t;
-
-/*
- * @arg: a string generated from getline containing arguements
- * @argv:an array of strings generated from arg
- * @path: a string path for the current command
- * @argc: the argument count
- * @line_count: the error count
- * @err_num: the error code for exit()s
- * @linecount_flag: if on count this line of input
- * @fname: the program filename
- * @env: linked list local copy of environ
- * @environ: custom modified copy of environ 
- * struct passinfo - contains pseudo-arguements to pass into a function,
- * allowing uniform prototype for function pointer struct from ALL env
- * @history: the history node
- * @alias: the alias node
- * @env_changed: on if environ was changed
- * @status: the return status of the last exec'd command
- * @cmd_buf: address of pointer to cmd_buf, on if chaining
- * @cmd_buf_type: CMD_type ||, &&, ;
- * @readfd: the fd from which to read line input
- * @histcount: the history line number count
- */
-
-typedef struct passinfo
-{
-	unsigned int line_count;
-	int err_num;
-	int linecount_flag;
-	char *fname;
-	list_t *env;
-	list_t *history;
-	list_t *alias;
-	char **environ;
-	int env_changed;
-	int status;
-	char *arg;
-	char **argv;
-	char *path;
-	int argc;
-
-	char **cmd_buf; /* pointer to cmd ; chain buffer, for memory mangement */
-	int cmd_buf_type; /* CMD_type ||, &&, ; */
-	int readfd;
-	int histcount;
-}
-
-info_t;
-
-#define INFO_INIT \
-{NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, 0, 0, NULL, \
-		0, 0, 0}
+extern char **environ;
+extern char *input;
+extern char **cmds;
+extern char name_of_shell;
+extern int status; 
 
 
-/*
- * struct builtin - contains a builtin string 
- * @func: the function
- * @type: the builtin command flag
- */
-
-typedef struct builtin
-{
-  char *type;
-  int (*func)(info_t *);
-} 
-
-builtin_table;
-
+<<<<<<< HEAD
 
 /* toem_shloop.c */
 
@@ -187,9 +112,9 @@ void remove_comments(char *);
 #define BUF_FLUSH -1
 
 /* toem_builtin.c */
-int _myexit(info_t *);
-int _mycd(info_t *);
-int _myhelp(info_t *);
+int _myexit(info_t *info);
+int _mycd(info_t *info);
+int _myhelp(info_t *info);
 
 /* toem_builtin1.c */
 int _myhistory(info_t *);
@@ -206,36 +131,37 @@ int renumber_history(info_t *info);
 ssize_t get_input(info_t *);
 int _getline(info_t *, char , size_t *);
 void sigintHandler(int);
+=======
+/* main */
+extern void non_interactive(void);
+extern void init(char **current_cmd, int cmd_type);
+>>>>>>> b2efa39ac5e91a65f324e5d8a555a33c6f8702d6
 
 void execmd(char **argv);
 char *get_path(char *cmd);
 int stat(const char *pathname, struct stat *statbuf);
-void init(char **current_cmd, int cmd_type);
-void exit(char **tokenized_command);
-void current_env(char **tokenized_command __attribute__((unused)));
+void exit(char **);
+void current_env(char **);
 char **tokenizer(char *str_input, char *del);
 void std_output(char *str, int stream);
 void delete_newline(char *str);
 void _strcpy(char *str, char *dest);
 int _strlen(char *str);
 int parse_cmd(char *cmd);
-void exec_cmd(char **tokenized_command, int type_cmd);
+void exec_cmd(char **tokenized_cmd, int type_cmd);
 char *evaluate_path(char *cmd);
 void (*get_function(char *cmd))(char **);
 char *_getenv(char *name);
-void non_interactive(void);
 char *_strtok_r(char *str, char *del, char **std_ptr);
 int _atoi(char *str);
 void *_realloc(void *ptr, unsigned int initial_sz, unsigned int current_sz);
-void ctrl-c_cmd(int sigum);
+void ctrl_c_cmd(int signum);
 void delete_comment(char *input);
-
-/* toem_string.c */
-int _strlen(char *);
-int _strcmp(char *, char *);
-char *starts_with(const char *, const char *);
-char *_strcat(char *, char *);
+int _strcmp(char *str1, char *str2);
+char *_strcat(char *dest, char *str);
+int _strspn(char *string1, char *string2);
+int _strcspn(char *string1, char *string2);
+char *_strchr(char *str, char c);
 
 
 #endif
-
