@@ -31,6 +31,7 @@ int _myexit(info_t *info)
 /**
  * _mycd - changes the current directory of the process
  * @info: Structure containing potential arguments.
+ * _getenv: 
  *  Return: Always (0)
  */
 
@@ -46,7 +47,7 @@ int _mycd(info_t *info)
 	{
 		dir = _getenv(info, "HOME=");
 		if (!dir)
-			chdir_ret = /* TODO: */
+			chdir_ret = /* TODO: What should be done?*/
 				chdir((dir = _getenv(info, "PWD=")) ? dir : "/");
 		else
 			chdir_ret = chdir(dir);
@@ -59,8 +60,8 @@ int _mycd(info_t *info)
 			_putchar('\n');
 			return (1);
 		}
-		_puts(_getenv(info, "OLDPWD=")), _putchar('\n');
-		chdir_ret = /* TODO */
+		_puts(_setenv(info, "OLDPWD=")), _putchar('\n');
+		chdir_ret = /* TODO: What shall we do??*/
 			chdir((dir = _getenv(info, "OLDPWD=")) ? dir : "/");
 	}
 	else
@@ -72,7 +73,7 @@ int _mycd(info_t *info)
 	}
 	else
 	{
-		_setenv(info, "OLDPWD", _getenv(info, "PWD="));
+		_setenv(info, "OLDPWD", _setenv(info, "PWD="));
 		_setenv(info, "PWD", getcwd(buffer, 1024));
 	}
 	return (0);

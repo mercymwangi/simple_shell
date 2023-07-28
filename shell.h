@@ -162,7 +162,7 @@ void ffree(char );
 void *_realloc(void *, unsigned int, unsigned int);
 
 /* toem_memory.c */
-int bfree(void **ptr );
+int bfree(void **);
 
 /* toem_atoi.c */
 int interactive(info_t *);
