@@ -11,7 +11,8 @@
 
 int main(int argc, char **argv[])
 {
-	char **current_cmd = NULL, char **cmds, char *input, char *name_of_shell = NULL;
+	char **current_cmd = NULL, **cmds; 
+	char *input; char *name_of_shell = NULL;
 	int j, cmd_type = 0, status = 0;
 	size_t n = 0;
 
@@ -22,7 +23,7 @@ int main(int argc, char **argv[])
 	while (1)
 	{
 		non_interactive();
-		printf("#cisfun$ ", STDOUT_FILENO);
+		printf("%d #cisfun$ ", STDOUT_FILENO);
 		if (getline(&input, &n, stdin) == -1)
 		{
 			free(input);

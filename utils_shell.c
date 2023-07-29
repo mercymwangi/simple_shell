@@ -75,9 +75,9 @@ void exec_cmd(char **tokenized_cmd, int type_cmd)
 	if (type_cmd == INVALID_CMD)
 	{
 		printf(name_of_shell, STDERR_FILENO);
-		printf(": 1: ", STDERR_FILENO);
+		printf("%d: 1: ", STDERR_FILENO);
 		printf(tokenized_cmd[0], STDERR_FILENO);
-		printf(": cmd not found\n", STDERR_FILENO);
+		printf("%d: cmd not found\n", STDERR_FILENO);
 		status = 127;
 	}
 }
@@ -128,14 +128,14 @@ char *evaluate_path(char *cmd)
 void (*get_function(char *cmd))(char **)
 {
 	int j;
-	function_map[] = {
-		{"env", env}, {"exit", exit}
+	function_map mapping[] = {
+		{"env", env}, {"exit", quit}
 	};
 
 	for (j = 0; j < 2; j++)
 	{
-		if (_strcmp(cmd, map[j].cmd_name) == 0)
-			return (map[j].function);
+		if (_strcmp(cmd, mapping[j].cmd_name) == 0)
+			return (mapping[j].function);
 	}
 	return (NULL);
 }

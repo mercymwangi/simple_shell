@@ -44,10 +44,10 @@ void quit_shell(char **tokenized_cmd)
 		arg = _atoi(tokenized_cmd[1]);
 		if (arg == -1)
 		{
-			printf("%c", name_of_shell, STDERR_FILENO);
-			printf(": 1: exit: number not allowed: ", STDERR_FILENO);
-			printf(tokenized_cmd[1], STDERR_FILENO);
-			printf("\n", STDERR_FILENO);
+			printf("%s", name_of_shell, STDERR_FILENO);
+			printf("%s: 1: exit: number not allowed: ", STDERR_FILENO);
+			printf("%d",tokenized_cmd[1], STDERR_FILENO);
+			printf("%c\n", STDERR_FILENO);
 			status = 2;
 		}
 		else

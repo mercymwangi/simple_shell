@@ -57,7 +57,7 @@ int _atoi(char *str)
 		else if ((*str < '0' || *str > '9') && *str != '\0')
 			return (-1);
 		else if (*str >= '0'  && *str <= '9')
-			j = (j * 10) + (*j - '0');
+			j = (j * 10) + (*str - '0');
 		else if (j > 0)
 			break;
 	} while (*str++);
@@ -114,7 +114,7 @@ void *_realloc(void *ptr, unsigned int initial_sz, unsigned int current_sz)
 void ctrl_c_cmd(int signum)
 {
 	if (signum == SIGINT)
-		print("\n($) ", STDIN_FILENO);
+		printf("\n($) ", STDIN_FILENO);
 }
 
 /**
