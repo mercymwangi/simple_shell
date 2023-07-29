@@ -15,7 +15,7 @@ void current_env(char **tokenized_cmd)
 	for (j = 0; environ[j] != NULL; j++)
 	{
 		printf(environ[j], STDOUT_FILENO);
-		printf("\n", STDOUT_FILENO);
+		write(STDOUT_FILENO, "\n", 1);
 	}
 }
 
@@ -29,6 +29,10 @@ void current_env(char **tokenized_cmd)
 void quit_shell(char **tokenized_cmd)
 {
 	int num_tok = 0, arg;
+	int exitStatus = 1;
+	char *input = NULL;
+	char *cmds = NULL;
+	char *name_of_shell = NULL;
 
 	for (; tokenized_cmd[num_tok] != NULL; num_tok++)
 		;
@@ -45,9 +49,15 @@ void quit_shell(char **tokenized_cmd)
 		if (arg == -1)
 		{
 			printf("%s", name_of_shell, STDERR_FILENO);
+<<<<<<< HEAD
 			printf("%s: 1: exit: number not allowed: ", STDERR_FILENO);
 			printf("%d",tokenized_cmd[1], STDERR_FILENO);
 			printf("%c\n", STDERR_FILENO);
+=======
+			dprintf(STDERR_FILENO, ": 1: exit: %d: number not allowed\n", exitStatus);
+			printf(tokenized_cmd[1], STDERR_FILENO); 
+			dprintf(STDERR_FILENO, "\n");
+>>>>>>> 7bf2dcad86d38724c4e5a4b506cc0835ca3a14f3
 			status = 2;
 		}
 		else
