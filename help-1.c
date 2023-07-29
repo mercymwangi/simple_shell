@@ -16,7 +16,7 @@ int _strcmp(char *str1, char *str2)
 	{
 		if (str1[j] != str2[j])
 			break;
-		i++;
+		j++;
 	}
 	return (str1[j] - str2[j]);
 }

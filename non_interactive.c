@@ -19,7 +19,7 @@ void non_interactive(void)
 			delete_newline(input);
 			delete_comment(input);
 			cmds = tokenizer(input, ";");
-			for (j = 0; commands[j] != NULL; j++)
+			for (j = 0; cmds[j] != NULL; j++)
 			{
 				current_cmd = tokenizer(cmds[j], " ");
 				if (current_cmd[0] == NULL)

@@ -1,54 +1,60 @@
 #include "shell.h"
 
 /**
- * main - entry point
- * @argc: argument count
- * @argv: array of arguments to be parsed
+ * main - main shell code
+ * @argc: number of arguments passed
+ * @argv: program arguments to be parsed
  *
+ * applies functions in utils and helpers
+ * implements EOF
+ * Prints error on Failure
  * Return: 0 on success
  */
 
+	char **commands = NULL;
+	char *line = NULL;
+	char *shell_name = NULL;
+	int status = 0;
 
-int main(int argc, char **argv[])
+
+int main(int argc __attribute__((unused)), char **argv)
 {
-	char **current_cmd = NULL, **cmds, *input, *name_of_shell = NULL;
-	int j, cmd_type = 0, status = 0;
+	char **current_command = NULL;
+	int i, type_command = 0;
 	size_t n = 0;
 
-	argc(void);
-
-	signal(SIGINT, ctrl_c_cmd);
-	name_of_shell = argv[0];
+	signal(SIGINT, ctrl_c_handler);
+	shell_name = argv[0];
 	while (1)
 	{
 		non_interactive();
-		print("#cisfun$ ", STDOUT_FILENO);
-		if (getline(&input, &n, stdin) == -1)
+		print(" ($) ", STDOUT_FILENO);
+		if (getline(&line, &n, stdin) == -1)
 		{
-			free(input);
+			free(line);
 			exit(status);
 		}
-			delete_newline(input);
-			delete_comment(input);
-			cmds = tokenizer(input, ";");
+			remove_newline(line);
+			remove_comment(line);
+			commands = tokenizer(line, ";");
 
-		for (j = 0; cmds[j] != NULL; j++)
+		for (i = 0; commands[i] != NULL; i++)
 		{
-			current_cmd = tokenizer(cmds[j], " ");
-			if (current_cmd[0] == NULL)
+			current_command = tokenizer(commands[i], " ");
+			if (current_command[0] == NULL)
 			{
-				free(current_cmd);
+				free(current_command);
 				break;
 			}
-			cmd_type = parse_cmd(current_cmd[0]);
+			type_command = parse_command(current_command[0]);
 
-			/* init -   */
-			init(current_cmd, cmd_type);
-			free(current_cmd);
+			/* initializer -   */
+			initializer(current_command, type_command);
+			free(current_command);
 		}
-		free(cmds);
+		free(commands);
 	}
-	free(input);
+	free(line);
 
 	return (status);
 }

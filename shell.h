@@ -68,6 +68,9 @@ char *check_path(char *);
 void (*get_func(char *))(char **);
 char *_getenv(char *);
 
+/*fork*/
+void init(char **current_cmd, int cmd_type);
+
 /*built_in*/
 void env(char **);
 void quit(char **);
